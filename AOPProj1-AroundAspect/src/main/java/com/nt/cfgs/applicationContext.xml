@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+	<!--  cfg Target class -->
+	<bean id="bnkService"  class="com.nt.service.BankService"/>
+	
+	<!-- Cfg Advice class -->
+	<bean id="pmAdvice"  class="com.nt.advice.PerformanceMonitoringAdvice"/>
+	<bean id="logAdvice"  class="com.nt.advice.LogAroundAdvice"/>
+	<bean id="cacheAdvice" class="com.nt.advice.CacheAdvice"/>
+
+   <!-- Cfg ProxyFactoryBean as AspectWeaver -->
+   <bean id="pfb"  class="org.springframework.aop.framework.ProxyFactoryBean">
+       <property name="target" ref="bnkService"/>
+       <property name="interceptorNames">
+        <array>
+           <value>cacheAdvice</value>
+           <value>logAdvice</value>
+            <value>pmAdvice</value>
+        </array>
+       </property>
+   </bean>	
+	
+
+
+</beans>
